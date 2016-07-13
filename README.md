@@ -80,3 +80,24 @@ Just as you should never use `sudo` to launch any graphical applications, you sh
 - ```Windows```, `sudo` usually use VBS for elevating needed right with UAC. This prevents `electron-sudo` from batching up multiple permission requests, and will result in a separate password prompt for each call.
 
 While `electron-sudo` may batch up calls, you should never rely on `electron-sudo` to execute your calls in order. For example, several calls may be waiting on a password prompt, and the next call after the password prompt may execute before any of these calls. If you need to enforce ordering of calls, then you should explicitly order your calls in your application.
+
+## Webpack
+
+Once you'd like to have `electron-sudo` working with `webpack`, you have to specify `node.__filename` in your `webpack.config.js` as following:
+
+```javascript
+'use strict';
+module.exports = {
+    entry: {
+        ...
+    },
+    output: {
+        ...
+        ...
+    },
+    target: 'electron',
+    node: {
+        __filename: true
+    }
+};
+```
